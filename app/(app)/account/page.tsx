@@ -29,9 +29,12 @@ function RatingSection() {
     }
   }, [existing.data]);
 
+  const [error, setError] = useState("");
+
   const mutation = useMutation({
     mutationFn: () => api.submitRating(score, comment),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["my-rating"] }); setSubmitted(true); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["my-rating"] }); setSubmitted(true); setError(""); },
+    onError: () => setError("Gửi đánh giá thất bại, vui lòng thử lại."),
   });
 
   return (
@@ -40,7 +43,7 @@ function RatingSection() {
       <p className="text-sm text-muted-foreground">Chia sẻ trải nghiệm của bạn với Folkify</p>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} onClick={() => setScore(n)} className="p-0.5">
+          <button key={n} onClick={() => { setScore(n); setSubmitted(false); setError(""); }} type="button" aria-label={`${n} sao`} className="p-0.5">
             <Star
               className={cn("size-8 transition-colors", n <= score ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30")}
             />
@@ -49,8 +52,9 @@ function RatingSection() {
       </div>
       <textarea
         value={comment}
-        onChange={(e) => setComment(e.target.value)}
+        onChange={(e) => { setComment(e.target.value); setSubmitted(false); setError(""); }}
         placeholder="Nhận xét (không bắt buộc)"
+        maxLength={1000}
         rows={3}
         className="w-full rounded-xl border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
       />
@@ -59,6 +63,7 @@ function RatingSection() {
           {mutation.isPending ? "Đang gửi..." : existing.data ? "Cập nhật" : "Gửi đánh giá"}
         </Button>
         {submitted && <span className="text-sm text-green-600">Cảm ơn bạn đã đánh giá!</span>}
+        {error && <span className="text-sm text-red-600">{error}</span>}
       </div>
     </section>
   );
