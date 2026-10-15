@@ -28,6 +28,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://folkify-backend.onrender.com" />
+        <link rel="dns-prefetch" href="https://folkify-backend.onrender.com" />
+      </head>
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
         {process.env.NEXT_PUBLIC_GA_ID && (

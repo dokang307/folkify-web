@@ -18,10 +18,10 @@ export const qk = {
 };
 
 export const useEntitlements = () => useQuery({ queryKey: qk.entitlements, queryFn: api.entitlements });
-export const usePlans = () => useQuery({ queryKey: qk.plans, queryFn: api.plans, staleTime: 10 * 60_000 });
+export const usePlans = () => useQuery({ queryKey: qk.plans, queryFn: api.plans, staleTime: 30 * 60_000 });
 export const useProgress = () => useQuery({ queryKey: qk.progress, queryFn: api.progress });
 export const useInstruments = () =>
-  useQuery({ queryKey: qk.instruments, queryFn: api.instruments, staleTime: 10 * 60_000 });
+  useQuery({ queryKey: qk.instruments, queryFn: api.instruments, staleTime: 30 * 60_000 });
 export const useInstrument = (slug: string) =>
   useQuery({ queryKey: qk.instrument(slug), queryFn: () => api.instrument(slug) });
 export const useLesson = (slug: string, lesson: string) =>
