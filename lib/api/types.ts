@@ -220,3 +220,10 @@ export interface PaymentStatus {
   status: "PENDING" | "SUCCESS" | "CANCELLED" | "FAILED";
   targetPlan: Plan;
 }
+
+export interface RatingResponse {
+  id: string;
+  score: number;
+  comment: string | null;
+  updatedAt: string;
+}

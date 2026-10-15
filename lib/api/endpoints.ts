@@ -13,6 +13,7 @@ import type {
   Plan,
   PlanInfo,
   Quiz,
+  RatingResponse,
   Song,
   QuizResult,
   UserProgress,
@@ -58,4 +59,8 @@ export const api = {
   checkout: (plan: Exclude<Plan, "FREE">) =>
     request<CheckoutResult>("/api/payments/checkout", { method: "POST", body: { plan, platform: "WEB" } }),
   paymentStatus: (orderId: string) => request<PaymentStatus>(`/api/payments/status/${encodeURIComponent(orderId)}`),
+
+  myRating: () => request<RatingResponse>("/api/ratings/me"),
+  submitRating: (score: number, comment?: string) =>
+    request<RatingResponse>("/api/ratings", { method: "PUT", body: { score, comment: comment || null } }),
 };
